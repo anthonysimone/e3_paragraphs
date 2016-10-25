@@ -1,0 +1,11 @@
+e3-paragraphs-admin-assets:
+  version: 1.x
+  css:
+    theme:
+      lib/css/dragula.css: {}
+      css/draggable-items.css: {}
+  js:
+    lib/js/dragula.js: {}
+    js/draggable-items.js: {}
+  dependencies:
+    - core/jquery

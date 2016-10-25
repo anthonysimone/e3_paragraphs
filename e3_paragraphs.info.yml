@@ -1,0 +1,5 @@
+name: E3 Paragraphs
+type: module
+description: Custom stuff for E3 paragraphs implementation
+core: 8.x
+package: Custom

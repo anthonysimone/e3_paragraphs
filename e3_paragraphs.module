@@ -1,0 +1,186 @@
+<?php
+
+/**
+ * @file
+ * Contains e3_paragraphs.module
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Template\Attribute;
+
+/**
+ *
+ * Implements hook_help().
+ */
+function e3_paragraphs_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the comx_page_banners module.
+    case 'help.page.e3_paragraphs':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('E3 paragraphs custom stuff') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function e3_paragraphs_page_attachments(array &$page) {
+  $theme_name = \Drupal::theme()->getActiveTheme()->getName();
+  if ($theme_name == 'adminimal_theme') {
+    $page['#attached']['library'][] = 'e3_paragraphs/e3-paragraphs-admin-assets';
+  }
+}
+
+//function e3_paragraphs_preprocess_field_multiple_value_form(&$variables, $hook) {
+//  if (isset($variables['element']['#attached']['library'])) {
+//    if ($is_paragraphs_widget = in_array('paragraphs/drupal.paragraphs.admin', $variables['element']['#attached']['library'])) {
+////      $variables['theme_hook_original'] = 'field_multiple_value_form_divs';
+//    }
+//  }
+//}
+
+/**
+ * Implements hook_theme_suggestions_alter().
+ */
+function e3_paragraphs_theme_suggestions_field_multiple_value_form_alter(array &$suggestions, array $variables, $hook) {
+  if (isset($variables['element']['#attached']['library'])) {
+    if ($is_paragraphs_widget = in_array('paragraphs/drupal.paragraphs.admin', $variables['element']['#attached']['library'])) {
+      $suggestions[] = 'field_multiple_value_form_divs';
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function e3_paragraphs_field_widget_entity_reference_paragraphs_previewer_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  $test = '';
+}
+//function e3_paragraphs_field_widget_entity_reference_paragraphs_form_alter() {
+//
+//}
+
+/**
+ * Implements hook_theme_registry_alter
+ */
+//function e3_paragraphs_theme_registry_alter(&$theme_registry) {
+//  $theme_registry['field_multiple_value_form']['path'] = drupal_get_path('module', 'e3_paragraphs') . '/templates';
+//  $test = '';
+//}
+
+
+function e3_paragraphs_theme($existing, $type, $theme, $path) {
+  return array(
+    'field_multiple_value_form_divs' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+function e3_paragraphs_preprocess_field_multiple_value_form_divs(&$variables) {
+  $element = $variables['element'];
+  $variables['multiple'] = $element['#cardinality_multiple'];
+
+  if ($variables['multiple']) {
+    $table_id = Html::getUniqueId($element['#field_name'] . '_values');
+    $order_class = $element['#field_name'] . '-delta-order';
+    $header_attributes = new Attribute(array('class' => array('label')));
+    if (!empty($element['#required'])) {
+      $header_attributes['class'][] = 'js-form-required';
+      $header_attributes['class'][] = 'form-required';
+    }
+    $header = array(
+      array(
+        '#prefix' => '<h4' . $header_attributes . '>',
+        'title' => array(
+          '#markup' => $element['#title'],
+        ),
+        '#suffix' => '</h4>',
+      )
+    );
+    $rows = array();
+
+    // Sort items according to '_weight' (needed when the form comes back after
+    // preview or failed validation).
+    $items = array();
+    $variables['button'] = array();
+    foreach (Element::children($element) as $key) {
+      if ($key === 'add_more') {
+        $variables['button'] = &$element[$key];
+      }
+      else {
+        $items[] = &$element[$key];
+      }
+    }
+    usort($items, '_field_multiple_value_form_sort_helper');
+
+    // Add the items as table rows.
+    foreach ($items as $item) {
+      $item['_weight']['#attributes']['class'] = array($order_class);
+      $item['_weight']['#attributes']['class'] = 'draggable';
+
+      $test = '';
+
+      // Remove weight form element from item render array so it can be rendered
+      // in a separate table column.
+//      $delta_element = $item['_weight'];
+//      unset($item['_weight']);
+
+//      $cells = array(
+//        array('data' => '', 'class' => array('field-multiple-drag')),
+//        array('data' => $item),
+//        array('data' => $delta_element, 'class' => array('delta-order')),
+//      );
+//      $rows[] = array(
+//        'data' => $cells,
+//        'class' => array('draggable'),
+//      );
+    }
+
+
+    $variables['paragraphs_field_header'] = $header;
+    $variables['paragraphs_field_items'] = $items;
+
+    $variables['table'] = array(
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => array(
+        'id' => $table_id,
+        'class' => array('field-multiple-table'),
+      ),
+      '#tabledrag' => array(
+        array(
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => $order_class,
+        ),
+      ),
+    );
+
+    if (!empty($element['#description'])) {
+      $description_id = $element['#attributes']['aria-describedby'];
+      $description_attributes['id'] = $description_id;
+      $variables['description']['attributes'] = new Attribute($description_attributes);
+      $variables['description']['content'] = $element['#description'];
+
+      // Add the description's id to the table aria attributes.
+      $variables['table']['#attributes']['aria-describedby'] = $element['#attributes']['aria-describedby'];
+    }
+  }
+  else {
+    $variables['elements'] = array();
+    foreach (Element::children($element) as $key) {
+      $variables['elements'][] = $element[$key];
+    }
+  }
+}
