@@ -26,23 +26,31 @@
 
   function initDraggableItems($draggableItemContainers) {
     $draggableItemContainers.each(function() {
-      console.log($(this)[0]);
+      // console.log($(this)[0]);
       var drake = dragula([$(this)[0]]);
       drake.on('drop', function(el) {
-        console.log(this);
+        // console.log(this);
         adjustOrder(drake);
       });
-      console.log(drake);
+
+      // drake.on('cloned', function(clone, original, type) {
+      //   console.log(clone);
+      //   console.log(original);
+      //   console.log(type);
+      //   if (type === 'mirror') {
+      //     setTimeout(function() {
+      //       $(clone).addClass('fancy');
+      //     }, 100);
+      //   }
+      // });
+      // console.log(drake);
     });
   }
 
   function adjustOrder(dragulaObject) {
     var $draggableItems = $(dragulaObject.containers[0]).children();
-    console.log($draggableItems);
-    $draggableItems.each(function(el, i) {
-      $(el).find('> div > div > select.form-select').val(i);
-      console.log(el);
-      console.log(i);
+    $draggableItems.each(function(i, el) {
+      $(this).children('div').children('div').children('.form-type-select').children('select').val(i);
     });
   }
 

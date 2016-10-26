@@ -1,3 +1,26 @@
 .gu-unselectable {
-    background: green;
+}
+
+.gu-mirror {
+    overflow: hidden;
+    transform: scale(0.8, 0.8);
+}
+
+.admin-paragraphs-draggable-item {
+    padding: 15px;
+    border: 1px solid black;
+}
+
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top {
+    padding: 0 130px 10px 150px;
+}
+
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top > .paragraphs-dropbutton-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.admin-paragraphs-draggable-item > div > div > .js-form-type-select {
+    display: none;
 }
