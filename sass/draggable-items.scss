@@ -1,0 +1,102 @@
+.gu-unselectable {
+}
+
+.gu-mirror {
+  overflow: hidden;
+}
+
+// Paragraph admin draggable item styles
+
+// Each draggable paragraphs item
+.admin-paragraphs-draggable-item {
+  position: relative;
+  padding: 15px 15px 15px 40px;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  & > .dragula-handle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 32px;
+    cursor: move;
+  }
+}
+
+// Wrapper containing the top level elements of the draggable paragraphs item (title, content, weight)
+.admin-paragraphs-draggable-item > div > .form-wrapper {
+  margin-top: 0;
+  margin: 0;
+
+  & > .paragraph-type-top {
+
+    margin-top: 0;
+  }
+}
+
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top > .paragraphs-dropbutton-wrapper {
+  position: absolute;
+  top: 0;
+  left: -38px;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .paragraphs-previewer.link.button {
+  /*position: absolute;*/
+  /*width: 27px;*/
+  /*height: 30px;*/
+  /*left: -38px;*/
+  /*top: 38px;*/
+  /*margin: 0;*/
+  /*overflow: hidden;*/
+  /*text-indent: -1000px;*/
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .paragraph-type-title {
+  margin-top: 0;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .dropbutton-widget {
+  width: 27px;
+  padding: 0;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .dropbutton-wrapper.open .dropbutton-widget {
+  width: auto;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .dropbutton {
+  position: relative;
+  padding-left: 2em;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .dropbutton .dropbutton-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.admin-paragraphs-draggable-item > div > div > .paragraph-type-top .dropbutton .dropbutton-toggle button {
+  border-left: none;
+  border-right: 1px solid #a6a6a6;
+}
+
+.admin-paragraphs-draggable-item > div > div > .js-form-type-select {
+  display: none;
+}
+
+.admin-paragraphs-draggable-item .admin-paragraphs-form-item {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+
+
+/* Color Scheme */
+.admin-paragraphs-draggable-item {
+  background: rgba(0, 128, 0, 0.05);
+}
+.admin-paragraphs-draggable-item > .dragula-handle {
+  background: green;
+}
+.admin-paragraphs-draggable-item .admin-paragraphs-draggable-item {
+  background: rgba(0, 0, 255, 0.05);
+}
+.admin-paragraphs-draggable-item .admin-paragraphs-draggable-item > .dragula-handle {
+  background: blue;
+}
