@@ -9,4 +9,4 @@ e3-paragraphs-admin-assets:
     js/draggable-items.js: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
+    - core/ckeditor
