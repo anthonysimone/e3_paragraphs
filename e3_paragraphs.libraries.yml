@@ -6,6 +6,7 @@ e3-paragraphs-admin-assets:
       css/draggable-items.css: {}
   js:
     lib/js/dragula.js: {}
+    lib/js/dom-autoscroller.js: {}
     js/draggable-items.js: {}
   dependencies:
     - core/jquery

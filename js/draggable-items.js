@@ -45,6 +45,7 @@
 
     // On drop we need to recreate the editor from saved config
     drake.on('drop', function(el, target, source, sibling) {
+      adjustOrder(drake);
       initCkeditorFromSavedStatus(el, draggedItemId, draggedItemConfig, draggedItemContent);
     });
 
@@ -62,6 +63,17 @@
         draggedItemConfig = draggedItemInstance.config;
         draggedItemContent = draggedItemInstance.getData();
         if (draggedItemInstance) { draggedItemInstance.destroy(true); }
+      }
+    });
+
+    // Init dom-autoscroller for each drake instance
+    var scroll = autoScroll([
+      window
+    ],{
+      margin: 60,
+      maxSpeed: 10,
+      autoScroll: function(){
+        return this.down && drake.dragging;
       }
     });
   }
