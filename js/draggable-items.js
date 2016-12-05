@@ -14,22 +14,20 @@
   };
 
   // Make sure this WAS a wysiwyg initially, not any textarea, maybe selectors or something
-  function initCkeditorFromSavedStatus(el, id, config, content) {
-    if ($(el).find('#'+id).length) {
-      var newEditor = CKEDITOR.replace(id, config);
-      newEditor.on('instanceReady', function() {
-        console.log('this is my new instance and it is READY');
-        newEditor.setData(content);
-      });
-    }
+  function initCkeditorFromSavedStatus(el, draggedItems) {
+    $.each(draggedItems, function(i, value) {
+      if ($(el).find('#'+value.id).length && value.config) {
+        var newEditor = CKEDITOR.replace(value.id, value.config);
+        newEditor.on('instanceReady', function() {
+          newEditor.setData(value.content);
+        });
+      }
+    });
   }
 
   function initDraggableItems($draggableItemContainers) {
     // Declare variables for the currently dragged item so they can be accessed in any even handler
-    var draggedItemConfig,
-        draggedItemInstance,
-        draggedItemId,
-        draggedItemContent;
+    var draggedItems = [];
 
     // Initialize dragula on draggable containers
     var drake = dragula([$draggableItemContainers[0]], {
@@ -46,32 +44,43 @@
     // On drop we need to recreate the editor from saved config
     drake.on('drop', function(el, target, source, sibling) {
       adjustOrder(drake);
-      initCkeditorFromSavedStatus(el, draggedItemId, draggedItemConfig, draggedItemContent);
+      initCkeditorFromSavedStatus(el, draggedItems);
     });
 
     // On cancel we need to recreate the editor from saved config
     drake.on('cancel', function(el, container, source) {
-      initCkeditorFromSavedStatus(el, draggedItemId, draggedItemConfig, draggedItemContent);
+      initCkeditorFromSavedStatus(el, draggedItems);
     });
 
     // On drag start we need to save the config from the ckeditor instance and destroy it
     drake.on('drag', function(el, source) {
+      // On drag start, reset the array to empty so you don't try to initialize the same element multiple times
+      draggedItems = [];
       // Get id from textarea
-      draggedItemId = $(el).find('textarea').attr('id');
-      if (CKEDITOR.instances[draggedItemId]) {
-        draggedItemInstance = CKEDITOR.instances[draggedItemId];
-        draggedItemConfig = draggedItemInstance.config;
-        draggedItemContent = draggedItemInstance.getData();
-        if (draggedItemInstance) { draggedItemInstance.destroy(true); }
-      }
+      var $wysiwygs = $(el).find('.cke').siblings('textarea');
+      $wysiwygs.each(function(i, el) {
+        var draggedItemId = $(this).attr('id');
+        if (CKEDITOR.instances[draggedItemId]) {
+          var draggedItemInstance = CKEDITOR.instances[draggedItemId];
+          var draggedItemConfig = draggedItemInstance.config;
+          var draggedItemContent = draggedItemInstance.getData();
+          draggedItems.push({
+            id: draggedItemId,
+            instance: draggedItemInstance,
+            config: draggedItemConfig,
+            content: draggedItemContent
+          });
+          if (draggedItemInstance) { draggedItemInstance.destroy(true); }
+        }
+      });
     });
 
     // Init dom-autoscroller for each drake instance
     var scroll = autoScroll([
       window
     ],{
-      margin: 60,
-      maxSpeed: 10,
+      margin: 70,
+      maxSpeed: 14,
       autoScroll: function(){
         return this.down && drake.dragging;
       }

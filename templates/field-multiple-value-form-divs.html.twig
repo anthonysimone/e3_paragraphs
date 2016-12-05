@@ -20,7 +20,7 @@
  */
 #}
 {% if multiple %}
-  <div class="js-form-item form-item admin-paragraphs-form-item">
+  <div class="js-form-item form-item admin-paragraphs-form-item admin-paragraphs-multiple">
     {{ paragraphs_field_header }}
     <div class="draggable-items-container">
       {% for item in paragraphs_field_items %}
@@ -38,7 +38,9 @@
     {% endif %}
   </div>
 {% else %}
-  {% for element in elements %}
-    {{ element }}
-  {% endfor %}
+  <div class="js-form-item form-item admin-paragraphs-form-item admin-paragraphs-single">
+    {% for element in elements %}
+      {{ element }}
+    {% endfor %}
+  </div>
 {% endif %}
