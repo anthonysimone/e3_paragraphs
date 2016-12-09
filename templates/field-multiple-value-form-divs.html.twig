@@ -38,6 +38,7 @@
     {% endif %}
   </div>
 {% else %}
+  <h4 class="label">{{ element['#title'] }}</h4>
   <div class="js-form-item form-item admin-paragraphs-form-item admin-paragraphs-single">
     {% for element in elements %}
       {{ element }}

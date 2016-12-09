@@ -48,8 +48,14 @@
 
 
 // Wrapper containing the top level elements of the draggable paragraphs item (title, content, weight, actions)
-.admin-paragraphs-draggable-item > div > .form-wrapper {
+.admin-paragraphs-draggable-item > div > .form-wrapper,
+.admin-paragraphs-draggable-item > .ajax-new-content > div > .form-wrapper,
+.admin-paragraphs-single > div > .form-wrapper,
+.admin-paragraphs-single > .ajax-new-content > div > .form-wrapper {
   margin: 0;
+  div {
+    float: none;
+  }
   & > em {
     display: inline-block;
     margin: 3px 0;
@@ -70,11 +76,22 @@
       position: absolute;
       display: block;
       top: 5px;
-      left: 0;
-      width: 100%;
+      left: 40px;
+      .remove {
+        margin-left: 10px;
+        input {
+          background: #ec5959;
+          color: #fff;
+
+          &:hover, &:active {
+            color: #fff !important;
+            background: darken(#ec5959, 10%) !important;
+          }
+        }
+      }
     }
     .dropbutton-wrapper {
-      margin: 0 0 0 40px;
+      margin: 0;
       position: relative;
       .dropbutton {
         display: inline-block;
@@ -90,7 +107,7 @@
         top: 2px;
         padding: 2px 2px 2px 22px;
         z-index: 1000;
-        background: $paragraphs-topbar-bg-color;
+        background: transparent;
         .throbber {
           display: block;
           position: absolute;
@@ -114,18 +131,6 @@
     .secondary-action {
       display: block;
       border-top: 0 none;
-    }
-    .remove {
-      margin-left: 10px;
-      input {
-        background: #ec5959;
-        color: #fff;
-
-        &:hover, &:active {
-          color: #fff !important;
-          background: darken(#ec5959, 10%) !important;
-        }
-      }
     }
     .dropbutton-action {
       background: #fff;
@@ -155,7 +160,7 @@
 // Color scheme
 // 1st level
 .admin-paragraphs-draggable-item {
-  background: rgba($level-1-color, 0.1);
+  background: $level-1-bg-color;
 
   & > .dragula-handle {
     background-color: $level-1-color;
@@ -192,7 +197,7 @@
 
 // 2nd level
 .admin-paragraphs-draggable-item .admin-paragraphs-draggable-item {
-  background: rgba($level-2-color, 0.1);
+  background: $level-2-bg-color;
   & > .dragula-handle {
     background-color: $level-2-color;
   }
@@ -200,23 +205,36 @@
 
 // 3rd level
 .admin-paragraphs-draggable-item .admin-paragraphs-draggable-item {
-  background: rgba($level-3-color, 0.1);
+  background: $level-3-bg-color;
   & > .dragula-handle {
     background-color: $level-3-color;
   }
 }
 
-// A child paragraph field form
-.admin-paragraphs-draggable-item {
-  .admin-paragraphs-form-item {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 10px;
-    background: rgba(#fff, 0.8);
-  }
+// A child paragraph field form with multiple values
+.admin-paragraphs-draggable-item .admin-paragraphs-multiple {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  background: rgba(#fff, 0.8);
 }
 
 // Paragraph preview view mode stuff
 .paragraph--view-mode--preview {
   font-size: 90%;
+}
+
+// Single paragraph value form styles to handle buttons layout and such
+.admin-paragraphs-single {
+  position: relative;
+  padding: 40px 10px 10px 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background: rgba(#fff, 0.8);
+  &.form-item {
+    margin-top: 0;
+  }
+  input.link.button.paragraphs-previewer.form-submit {
+    left: 10px;
+  }
 }

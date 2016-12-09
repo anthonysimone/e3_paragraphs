@@ -90,7 +90,17 @@
   function adjustOrder(dragulaObject) {
     var $draggableItems = $(dragulaObject.containers[0]).children();
     $draggableItems.each(function(i, el) {
-      $(this).children('div').children('div').children('.form-type-select').children('select').val(i);
+      // Because drupal has no useful selectors on the admin side and adds wrappers for newly created paragraphs,
+      // we need to do this hanky panky to make sure we are only adjusting the weights of the currently adjusted items
+      var $weightSelect = $(this).children('div').children('div').children('.form-type-select').children('select'),
+          $weightSelectAjax = $(this).children('.ajax-new-content').children('div').children('div').children('.form-type-select').children('select');
+      if ($weightSelect.length > 0) {
+        $weightSelect.val(i);
+      } else if ($weightSelectAjax.length > 0) {
+        $weightSelectAjax.val(i);
+      } else {
+        console.log('Error: Cannot find valid paragraph weight to adjust!');
+      }
     });
   }
 

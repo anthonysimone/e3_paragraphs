@@ -73,7 +73,14 @@ function e3_paragraphs_field_widget_entity_reference_paragraphs_previewer_form_a
  * Implements hook_theme_registry_alter
  */
 //function e3_paragraphs_theme_registry_alter(&$theme_registry) {
-//  $theme_registry['field_multiple_value_form']['path'] = drupal_get_path('module', 'e3_paragraphs') . '/templates';
+////  $theme_registry['field_multiple_value_form']['path'] = drupal_get_path('module', 'e3_paragraphs') . '/templates';
+//  $theme_registry['paragraph__preview'] = array(
+//    'template' => 'paragraph__preview',
+//    'path' => drupal_get_path('module', 'e3_paragraphs') . '/templates',
+//    'type' => 'theme_engine',
+//    'theme path' => '',
+//    'render element' => 'elements',
+//  );
 //  $test = '';
 //}
 
