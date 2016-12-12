@@ -238,3 +238,25 @@
     left: 10px;
   }
 }
+
+// Paragraphs icon bar
+.paragraphs-icon-bar {
+  display: none;
+}
+.admin-paragraphs-draggable-item > div > .form-wrapper > .paragraphs-icon-bar {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  background: rgba(#fff, 0.4);
+  span {
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 5px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}

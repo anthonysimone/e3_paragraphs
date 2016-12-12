@@ -8,6 +8,7 @@ e3-paragraphs-admin-assets:
     lib/js/dragula.js: {}
     lib/js/dom-autoscroller.js: {}
     js/draggable-items.js: {}
+    js/expandable-paragraphs.js: {}
   dependencies:
     - core/jquery
     - core/ckeditor

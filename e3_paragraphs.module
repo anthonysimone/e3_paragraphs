@@ -35,7 +35,7 @@ function e3_paragraphs_help($route_name, RouteMatchInterface $route_match) {
  */
 function e3_paragraphs_page_attachments(array &$page) {
   $theme_name = \Drupal::theme()->getActiveTheme()->getName();
-  if ($theme_name == 'adminimal_theme') {
+  if ($theme_name == 'adminimal_theme' || $theme_name == 'adminkit') {
     $page['#attached']['library'][] = 'e3_paragraphs/e3-paragraphs-admin-assets';
   }
 }
